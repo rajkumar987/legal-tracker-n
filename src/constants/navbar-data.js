@@ -1,6 +1,7 @@
 export const menu = [
   { name: "Dashboard", url: "/dashboard", key: "dashboard" },
   { name: "Create User", url: "/create-user", key: "create-user" },
+  { name: "Add New Case", url: "/new-case", key: "new-case" },  
   { name: "RTI", url: "/rti", key: "rti" },
   { name: "Reports", url: "/reports", key: "reports" },
   { name: "Case History", url: "/case-history", key: "case-history" },
