@@ -1,0 +1,31 @@
+.custom-card {
+    max-width: 300px; /* Adjust as needed */
+    margin: 100px; 
+  }
+.custom-card-header {
+    text-align: center;
+    background-color: palegoldenrod;
+    color: black;
+  }
+  .blue-button {
+    background-color: rgb(63, 63, 211);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+  width: 180px; /* Adjust the width as needed */
+}
+
+/* Decrease the height of input fields */
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+  height: 40px; /* Adjust the height as needed */
+}
+  
