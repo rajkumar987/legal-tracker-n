@@ -132,6 +132,101 @@ export const data = [
   // Add more cases if needed
 ];
 
+
+export const ReportData = [
+  {
+    id: 1,
+    court_name: 'Supreme Court',
+    case_number: "WP/9403/2024",
+    date_of_filing: "12/05/2023",
+    department: 'Vehicle Caught',
+    advocate: "Rajkumar",
+    status: "Awaited",
+  },
+  {
+    id: 2,
+    court_name: 'High Court',
+    case_number: "CC/1298/2023",
+    date_of_filing: "05/18/2023",
+    department: 'Encroachment on forest land',
+    advocate: "Rakesh",
+    status: "Submitted",
+  },
+  {
+    id: 3,
+    court_name: 'Lower Court',
+    case_number: "SLP/7632/2024",
+    date_of_filing: "07/30/2023",
+    department: 'Illegal felling of trees',
+    advocate: "Rajkumar",
+    status: "Approval",
+  },
+  {
+    id: 4,
+    court_name: 'City Civil Court',
+    case_number: "WA/2874/2023",
+    date_of_filing: "11/12/2023",
+    department: 'Vehicle Caught',
+    advocate: "Ramesh",
+    status: "Submitted",
+  },
+  {
+    id: 5,
+    court_name: 'Government Pleader',
+    case_number: "WP/5219/2023",
+    date_of_filing: "09/02/2023",
+    department: 'Encroachment on forest land',
+    advocate: "Rakesh",
+    status: "Not Submitted",
+  },
+  {
+    id: 6,
+    court_name: 'Lokayuktha',
+    case_number: "CC/1943/2024",
+    date_of_filing: "04/16/2023",
+    department: 'Illegal felling of trees',
+    advocate: "Ramesh",
+    status: "Approval",
+  },
+  {
+    id: 7,
+    court_name: 'NGT',
+    case_number: "SLP/6320/2024",
+    date_of_filing: "10/22/2023",
+    department: 'Vehicle Caught',
+    advocate: "Rajkumar",
+    status: "Awaited",
+  },
+  {
+    id: 8,
+    court_name: 'APIT',
+    case_number: "WA/8417/2023",
+    date_of_filing: "06/08/2023",
+    department: 'Encroachment on forest land',
+    advocate: "Rakesh",
+    status: "Approval",
+  },
+  {
+    id: 9,
+    court_name: 'LGC',
+    case_number: "CC/3847/2024",
+    date_of_filing: "08/13/2023",
+    department: 'Illegal felling of trees',
+    advocate: "Rajkumar",
+    status: "Submitted",
+  },
+  {
+    id: 10,
+    court_name: 'NCLT',
+    case_number: "WP/7326/2024",
+    date_of_filing: "03/29/2023",
+    department: 'Vehicle Caught',
+    advocate: "Ramesh",
+    status: "Awaited",
+  },
+];
+
+
 export const CourtNames = [
   { name: "Supreme Court", label: "supreme_court" },
   { name: "High Court", label: "high_court" },
@@ -169,6 +264,7 @@ export const Advocates = [
     name: "Ramesh",
     value: "ramesh",
   },
+
 ];
 
 export const DepartmentSpecifics = [
