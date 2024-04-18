@@ -5,5 +5,7 @@ export const menu = [
   { name: "Reports", url: "/reports", key: "reports" },
   { name: "Case History", url: "/case-history", key: "case-history" },
   { name: "Payment Process", url: "/payment-process", key: "payment-process" },
-  { name: "Notice History", url: "/notice-history", key: "notice-history" },
+  { name: "Notice History", url: "/notice-history", key: "notice-history"},
+  { name: "Issued/Reply Notice List", url: "/notice-history/IRNL", key: "Issued/Reply-Notice-List" },
+  { name: "Recived/Reply Notice List", url: "/notice-history/RRNL", key: "Recived/Reply-Notice-List" }
 ];
