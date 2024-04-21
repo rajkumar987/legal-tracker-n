@@ -1,576 +1,358 @@
-"use client";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import Select from "react-select";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
-import { format } from "date-fns";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-import {
-  Advocates,
   CaseTypes,
+  Circles,
   CourtNames,
   DepartmentSpecifics,
-  Departments,
-  PwrStatuses,
+  HODs,
+  LegalSections,
+  Respondents,
+  Statuses,
+  Zones,
 } from "@/constants/dashboard-data";
 import { Textarea } from "./ui/textarea";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+const AddCaseForm = () => {
+  const methods = useForm();
+  const { register, handleSubmit, watch } = methods;
+  const onSubmit = (data) => alert(JSON.stringify(data));
+  const watchsection = watch("section_name") === "GHMC";
 
-export default function AddCaseForm() {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-    },
-  });
-
-  function onSubmit(values) {
-    console.log(values);
-  }
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 py-5 ">
-        <section className="form-fields">
-          <FormField
-            control={form.control}
-            name="case_number"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Case Number</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+    <form onSubmit={handleSubmit(onSubmit)} className="p-5 divide-y ">
+      <section className="form-fields pb-2">
+        <span className="space-y-1">
+          <Label className="text-gray-500 text-xs">Date</Label>
+          <Input
+            {...register("created_date", {
+              value: new Date(Date.now()).toISOString().split("T")[0],
+            })}
+            value={new Date(Date.now()).toISOString().split("T")[0]}
+            disabled
           />
-          <FormField
-            control={form.control}
-            name="filed_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Filed Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="petitioner_advocate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Petitioner Advocate</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="respondent_advocate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Respondent Advocate</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="financials_involved"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Financials Involved</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a status</SelectLabel>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="court_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name of the court</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a court" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a court</SelectLabel>
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Date of Filing</Label>
+          <Input type="date" {...register("date")} />
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Select Court</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("court")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            {CourtNames.map((court) => (
+              <option value={court.value} key={court.value}>
+                {court.name}
+              </option>
+            ))}
+          </select>
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Select Case Type</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("case_type")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            {CaseTypes.map((casetype) => (
+              <option value={casetype.value} key={casetype.value}>
+                {casetype.name}
+              </option>
+            ))}
+          </select>
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Case Number</Label>
+          <Input {...register("case_number")} placeholder="Case Number" />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Case Year</Label>
+          <Input {...register("case_year")} placeholder="Year" type="number" />
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Name of the Section</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("section_name")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            {LegalSections.map((section) => (
+              <option value={section.value} key={section.value}>
+                {section.name}
+              </option>
+            ))}
+          </select>
+        </span>
+        {watchsection && (
+          <span className="flex flex-col gap-1">
+            <Label className="text-gray-500 text-xs">Case Belongs To</Label>
+            <select
+              className="border p-2 rounded-md text-sm outline-none"
+              {...register("case_belongs_to")}
+            >
+              <option value="" selected>
+                Select
+              </option>
+              <option value="hod">Head Office</option>
+              <option value="zonal_office">Zonal Office</option>
+              <option value="circle_office">Circe Office</option>
+            </select>
+          </span>
+        )}
 
-                      {CourtNames.map((court) => (
-                        <SelectItem value={court.label} key={court.label}>
-                          {court.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="department"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name of the court</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select department" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a department</SelectLabel>
+        {watchsection &&
+          (watch("case_belongs_to") == "zonal_office" ||
+            watch("case_belongs_to") == "circle_office") && (
+            <span className="flex flex-col gap-1">
+              <Label className="text-gray-500 text-xs">
+                Name of Zone/Circle
+              </Label>
+              <select
+                className="border p-2 rounded-md text-sm outline-none"
+                {...register("zone_or_circle")}
+              >
+                <option value="" selected>
+                  Select
+                </option>
+                {watch("case_belongs_to") === "zonal_office"
+                  ? Zones.map((zone) => (
+                      <option value={zone.value} key={zone.value}>
+                        {zone.name}
+                      </option>
+                    ))
+                  : watch("case_belongs_to") === "circle_office" &&
+                    Circles.map((circle) => (
+                      <option value={circle.value} key={circle.value}>
+                        {circle.name}
+                      </option>
+                    ))}
+              </select>
+            </span>
+          )}
 
-                      {Departments.map((department) => (
-                        <SelectItem
-                          value={department.value}
-                          key={department.value}
-                        >
-                          {department.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="advocate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Advocate/Standing Council</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select Advocate" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select Advocate</SelectLabel>
+        {watchsection && (
+          <span className="flex flex-col gap-1">
+            <Label className="text-gray-500 text-xs">Name of HOD</Label>
+            <select
+              className="border p-2 rounded-md text-sm outline-none"
+              {...register("name_of_hod")}
+            >
+              <option value="" selected>
+                Select
+              </option>
+              {HODs.map((hod) => (
+                <option value={hod.value} key={hod.value}>
+                  {hod.name}
+                </option>
+              ))}
+            </select>
+          </span>
+        )}
 
-                      {Advocates.map((adv) => (
-                        <SelectItem value={adv.value} key={adv.value}>
-                          {adv.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
+        <span>
+          <Label className="text-gray-500 text-xs">Petitioner Name</Label>
+          <Input
+            {...register("petitioner_name")}
+            placeholder="Petitioner Name"
+          />
+        </span>
+
+        <span>
+          <Label className="text-gray-500 text-xs">Mobile Number</Label>
+          <Input
+            {...register("mobile_number")}
+            placeholder="Mobile"
+            type="number"
+          />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Next Hearing Date</Label>
+          <Input type="date" {...register("hearing_date")} />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">RESPONDENTS</Label>
+          <Controller
+            control={methods.control}
+            name="respondants"
+            render={({ field: { onChange, value, ref } }) => (
+              <Select
+                className="text-sm"
+                value={Respondents.filter((c) => value?.includes(c.value))}
+                onChange={(val) => onChange(val.map((c) => c.value))}
+                options={Respondents}
+                isMulti
+              />
             )}
           />
-          <FormField
-            control={form.control}
-            name="vakalath_filed"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Vakalath Filed</FormLabel>
-                <Select {...field} defaultValue="yes">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs"> eOFFICE RECEIPT NO</Label>
+          <Input
+            {...register("e_receipt_number")}
+            placeholder="Receipt number"
           />
-          <FormField
-            control={form.control}
-            name="vakalath_filed_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Vakalath Filed Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="vakalath_file"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload copy of vakalath</FormLabel>
-                <FormControl>
-                  <Input {...field} type="file" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="department_specific"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Department specific</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a option</SelectLabel>
-                      {DepartmentSpecifics.map((specific) => (
-                        <SelectItem value={specific.key} key={specific.key}>
-                          {specific.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="counter_submitted"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Counters Submitted</FormLabel>
-                <Select {...field} defaultValue="yes">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="counters_submitted_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Counters Submitted Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="upload_counter_copy"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload counter copy </FormLabel>
-                <FormControl>
-                  <Input {...field} type="file" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="case_type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Case Type</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a option</SelectLabel>
-                      {CaseTypes.map((specific) => (
-                        <SelectItem value={specific.key} key={specific.key}>
-                          {specific.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="pwr_status"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>PWR Status</FormLabel>
-                <Select {...field}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a option</SelectLabel>
-                      {PwrStatuses.map((specific) => (
-                        <SelectItem value={specific.key} key={specific.key}>
-                          {specific.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="present_state"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Present State of case</FormLabel>
-                <Select {...field} defaultValue="pending">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select a option</SelectLabel>
-                      <SelectItem value="disclosed">Disclosed</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="present_status"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Present Status</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="upload_gist"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload Gist </FormLabel>
-                <FormControl>
-                  <Input {...field} type="file" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="petition_copy"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload petition copy </FormLabel>
-                <FormControl>
-                  <Input {...field} type="file" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="prayer"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Prayer</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Prayer"
-                    className="resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="remarks"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Remarks</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Remarks"
-                    className="resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </section>
-        <Button type="submit" className="flex-1">
-          Submit
-        </Button>
-      </form>
-    </Form>
+        </span>
+
+        <span>
+          <Label className="text-gray-500 text-xs"> Prayer</Label>
+          <Textarea {...register("prayer")} />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs"> Remarks</Label>
+          <Textarea {...register("remarks")} />
+        </span>
+      </section>
+      <section className="form-fields pt-2">
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Financials Involved</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("finalcials_involved")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">
+            {" "}
+            Advocate/Standing Council
+          </Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("res_advocate")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+          </select>
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Vakalath Filed</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("vakalath_filed")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Vakalath Filed Date</Label>
+          <Input type="date" {...register("vakalath_filed_date")} />
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Counters Submitted</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("counter_submitted")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+          </select>
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">
+            Counters Submitted Date
+          </Label>
+          <Input type="date" {...register("counter_submitted_date")} />
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">PWR</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("counter_submitted")}
+          >
+            <option value="" selected>
+              Select
+            </option>
+            <option value="submitted">Submitted</option>
+            <option value="approval">Approval</option>
+            <option value="awaited">Awaited</option>
+            <option value="not_submitted">Not Submitted</option>
+          </select>
+        </span>
+
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Department Specific</Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("department_specific")}
+            defaultValue=""
+          >
+            <option value="">Select</option>
+            {DepartmentSpecifics.map((department) => (
+              <option value={department.value} key={department.value}>
+                {department.name}
+              </option>
+            ))}
+          </select>
+        </span>
+        <span className="flex flex-col gap-1">
+          <Label className="text-gray-500 text-xs">Present Status </Label>
+          <select
+            className="border p-2 rounded-md text-sm outline-none"
+            {...register("counter_submitted")}
+            defaultValue=""
+          >
+            <option value="">Select</option>
+            {Statuses.map((status) => (
+              <option value={status.value} key={status.value}>
+                {status.name}
+              </option>
+            ))}
+          </select>
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">
+            Upload copy of vakalath
+          </Label>
+          <Input type="File" />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">
+            Upload copy of counters
+          </Label>
+          <Input type="File" />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Upload petition copy</Label>
+          <Input type="File" />
+        </span>
+        <span>
+          <Label className="text-gray-500 text-xs">Upload gist</Label>
+          <Input type="File" />
+        </span>
+      </section>
+
+      <Button type="submit" className="my-2">
+        Submit
+      </Button>
+    </form>
   );
-}
+};
+
+export default AddCaseForm;

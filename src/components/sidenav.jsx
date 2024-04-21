@@ -7,7 +7,7 @@ import { menu } from "../constants/navbar-data";
 const Navbar = () => {
   const pathname = usePathname();
   return (
-    <div className="hidden border-r bg-muted/40 md:block fixed h-screen w-[18vw] bg-white z-10">
+    <div className="hidden border-r bg-muted/40 md:block fixed h-screen w-[18vw] 2xl:w-[15vw] bg-white z-20">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">

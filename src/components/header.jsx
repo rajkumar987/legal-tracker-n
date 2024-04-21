@@ -14,11 +14,14 @@ import {
 
 import { Sheet, SheetContent, SheetTrigger } from "../components/ui/sheet";
 import { menu } from "..//constants/navbar-data";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar } from "@radix-ui/react-avatar";
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   return (
-    <header className="flex h-14  justify-between items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed w-full bg-white">
+    <header className="flex h-14  justify-between items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 fixed w-full bg-white z-10">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -48,25 +51,27 @@ const Header = () => {
       <div></div>
       <DropdownMenu className="ml-[]">
         <DropdownMenuTrigger asChild className="cursor-pointer">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ">
             <Avatar>
-              <AvatarImage
-                src="https://github.com/shadcn.png"
-                className="w-10 h-10 rounded-full"
-              />
-              <AvatarFallback>CN</AvatarFallback>
+              <CircleUser />
             </Avatar>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>user@gmail.com</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {/* <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator /> */}
-          <DropdownMenuItem className="flex gap-2 cursor-pointer">
-            <LogOut className="w-4 h-4" />
-            Logout
+
+          <DropdownMenuItem>
+            <button
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => {
+                deleteCookie("isAuthenticated");
+                router.replace("/login");
+              }}
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
