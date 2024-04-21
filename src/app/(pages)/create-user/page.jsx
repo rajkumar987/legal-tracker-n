@@ -1,11 +1,9 @@
-'use client'
-import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import './style.css'; // Import your CSS file where you define styles
-import { Input } from "@/components/ui/input";
+"use client";
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-// import { Button } from "@/components/ui/button";
-
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -14,87 +12,119 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-// import dynamic from 'next/dynamic';
-// const DynamicButton = dynamic(() => import('@/components/ui/button')); // Import your button component dynamically
+} from "@/components/ui/select";
+import { Departments, Designations } from "@/constants/dashboard-data";
 
-const MyFormComponent = () => {
-  const handleClick = () => {
-    alert("User Created!");
+const page = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
   return (
-    <Card>
-      {/* <CardHeader className="custom-card-header">
-        <CardTitle>Create User</CardTitle>
-       
-      </CardHeader> */}
-      <CardContent>
-        <form>
-        <div className="grid grid-cols-2 gap-4">
-        <div>
-            <Label htmlFor="username">User Name</Label>
-            <Input type="text" id="username" placeholder="User Name" />
-        </div>
-        <div >
-            <Label htmlFor="dept">Department</Label>
-            <Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="-- Select Department --" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectItem value="Budha purnima project">Budha purnima project</SelectItem>
-          <SelectItem value="Outer ring road project">Outer ring road project</SelectItem>
-          <SelectItem value="ESTATE MANAGEMENT UNIT">ESTATE MANAGEMENT UNIT</SelectItem>
-          <SelectItem value="ESTABLISHMENT">ESTABLISHMENT</SelectItem>
-          <SelectItem value="VIGILLANCE">VIGILLANCE</SelectItem>
-          <SelectItem value="LAO HMDA">LAO HMDA</SelectItem>
-          <SelectItem value="ORRP (R & R)">ORRP (R & R)</SelectItem>
-          <SelectItem value="CGMHCL">CGMHCL</SelectItem>
-          <SelectItem value="HGCL DGM-III">HGCL DGM-III</SelectItem>
-          <SelectItem value="SHAMSHABAD ZONAL OFFICE">SHAMSHABAD ZONAL OFFICE</SelectItem>
-          <SelectItem value="MEDCHAL ZONE">MEDCHAL ZONE</SelectItem>
-          <SelectItem value="JAWAHARNAGAR VILLAGE">JAWAHARNAGAR VILLAGE</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-        </div>
-        
-        <div >
-            <Label htmlFor="email">Designation</Label>
-            <Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="-- Select Designation --" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectItem value="Hod">Hod</SelectItem>
-          <SelectItem value="Adv">Adv</SelectItem>
-          <SelectItem value="Leagalcell">Leagalcell</SelectItem>
-          <SelectItem value="Admin">Admin</SelectItem>
-          <SelectItem value="Account">Account</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-        </div>
-        <div >
-            <Label htmlFor="number">Mobile Number</Label>
-            <Input type="Number" id="number" placeholder="Mobile Number" />
-        </div>
-        <div >
-            <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" placeholder="Email" />
-        </div>
-        </div>
-          {/* Add more fields as needed */}
-           {/* <DynamicButton type="button" onClick={handleClick}>Submit</DynamicButton> */}
-        </form>
-        <br></br>
-        <button type="submit" onClick={handleClick} className="blue-button">Submit</button>
-      </CardContent>
-      
-    </Card>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-4">Add User</h1>
+      <Card>
+        <CardContent className="p-10">
+          <form onSubmit={handleSubmit}>
+            <section className="form-fields-user">
+              <span className="flex  gap-3">
+                <Label className="text-sm text-gray-600 text-nowrap">
+                  Username
+                  <span className="text-red-500 text-lg ml-0.5">*</span>
+                </Label>
+                <Input placeholder="Username" />
+              </span>
+              <span className="flex  gap-3">
+                <Label className="text-sm text-gray-600 text-nowrap">
+                  Email
+                  <span className="text-red-500 text-lg ml-0.5">*</span>
+                </Label>
+                <Input placeholder="Email" />
+              </span>
+              <span className="flex  gap-3">
+                <Label className="text-sm text-gray-600 text-nowrap">
+                  Mobile Number
+                  <span className="text-red-500 text-lg ml-0.5">*</span>
+                </Label>
+                <Input placeholder="Mobile Number" />
+              </span>
+              <span className="flex  gap-3">
+                <Label className="text-sm text-gray-600 text-nowrap">
+                  Designation
+                  <span className="text-red-500 text-lg ml-0.5">*</span>
+                </Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel className="text-gray-500 font-normal">
+                        Select
+                      </SelectLabel>
+                      {Designations.map((role) => (
+                        <SelectLabel value={role.value} key={role.value}>
+                          {role.name}
+                        </SelectLabel>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </span>
+              <span className="flex  gap-3">
+                <Label className="text-sm text-gray-600 text-nowrap">
+                  Dapartment
+                  <span className="text-red-500 text-lg ml-0.5">*</span>
+                </Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel className="text-gray-500 font-normal">
+                        Select
+                      </SelectLabel>
+                      {Departments.map((department) => (
+                        <SelectLabel
+                          value={department.value}
+                          key={department.value}
+                        >
+                          {department.name}
+                        </SelectLabel>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </span>
+              <span className="flex  gap-3">
+                <Label className="text-sm text-gray-600 text-nowrap">
+                  Is Active
+                  <span className="text-red-500 text-lg ml-0.5">*</span>
+                </Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a option" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel className="text-gray-500 font-normal">
+                        Select
+                      </SelectLabel>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </span>
+            </section>
+            <div className="flex justify-end">
+              <Button>Submit</Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
-export default MyFormComponent;
+export default page;

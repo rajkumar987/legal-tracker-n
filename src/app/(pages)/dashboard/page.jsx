@@ -12,8 +12,10 @@ import DataTable from "@/components/data-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatsData from "@/components/stats-data";
-import { data } from "@/constants/dashboard-data";
+
 import UpdateStatus from "@/components/update-status";
+import CauseView from "@/components/cause-item-view";
+import { CauseList } from "@/constants/dashboard-data";
 
 const columns = [
   {
@@ -29,23 +31,25 @@ const columns = [
     header: "Case Type",
   },
   {
-    accessorKey: "petitioner_advocate",
+    accessorKey: "pet_advocate",
     header: "Petitioner Advocate",
   },
   {
-    accessorKey: "respondent_advocate",
+    accessorKey: "res_advoate",
     header: "Respondent Advocate",
   },
   {
-    accessorKey: "location",
+    accessorKey: "district",
     header: "Location",
   },
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => <span>Pending</span>,
   },
 
   {
+    header: "Action",
     id: "actions",
     cell: ({ row }) => {
       return (
@@ -60,6 +64,9 @@ const columns = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <UpdateStatus row={row} />
+
+            <DropdownMenuSeparator />
+            <CauseView row={row} />
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -72,7 +79,7 @@ export default function Dashboard() {
     <main className="p-5 bg-gray-200/50 space-y-5 ">
       <StatsData />
       <section>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={CauseList} addCase={true} />
       </section>
     </main>
   );
