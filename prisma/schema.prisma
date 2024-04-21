@@ -14,20 +14,43 @@ datasource db {
 }
 
 model Users {
-  id       Int    @id @default(autoincrement())
-  username String @unique @db.VarChar(255)
-  password String @db.VarChar(255)
-  role     String @db.VarChar(255)
+  id          Int     @id @default(autoincrement())
+  username    String  @unique @db.VarChar(255)
+  password    String  @db.VarChar(255)
+  email       String? @db.VarChar(255)
+  mobile      String? @db.VarChar(255)
+  designation String  @db.VarChar(255)
+  department  String? @db.VarChar(255)
+  is_active   Boolean @default(true)
 }
 
-enum Courts {
-  SUPREME_COURT
-  HIGH_COURT
-  CIVIL_COURT
-  NGT
-  LOKAYUKTA
-  HRC
-  NHRC
-  ARBITRATION
-  CONSUMER_COURT
+model cases {
+  id                     Int      @id @default(autoincrement())
+  filing_date            String   @db.VarChar(255)
+  court                  String   @db.VarChar(255)
+  case_type              String   @db.VarChar(255)
+  case_number            String   @db.VarChar(255)
+  case_year              String   @db.VarChar(255)
+  section_name           String   @db.VarChar(255)
+  case_belongs_to        String?  @db.VarChar(255)
+  zone_or_circle         String?  @db.VarChar(255)
+  name_of_hod            String?  @db.VarChar(255)
+  petitioner_name        String   @db.VarChar(255)
+  respondents            String[] @db.VarChar(255)
+  e_receipt_no           String   @db.VarChar(255)
+  prayer                 String   @db.Text()
+  Remarks                String   @db.Text()
+  next_hearing           String   @db.VarChar(255)
+  mobile                 String?  @db.VarChar(255)
+  financials_involved    Boolean?
+  vakalath_filed         Boolean?
+  counter_submitted      Boolean?
+  res_advocate           String?  @db.VarChar(255)
+  vakalath_filed_date    String?  @db.VarChar(255)
+  counter_submitted_date String?  @db.VarChar(255)
+  pwr                    String?  @db.VarChar(255)
+  department             String?  @db.VarChar(255)
+  present_status         String   @db.VarChar(255)
+  created_at             DateTime @default(now())
+  updated_at             DateTime @default(now())
 }
