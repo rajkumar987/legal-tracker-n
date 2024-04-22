@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Departments, LegalSections } from "@/constants/dashboard-data";
 
 const RTIForm = () => {
   const handleSubmit = (e) => {
@@ -37,12 +38,12 @@ const RTIForm = () => {
         <form className="space-y-3" onSubmit={handleSubmit}>
           <Card>
             <CardDescription className="p-3">
-              Public Authority Details
+              Department/Section Details
             </CardDescription>
             <CardContent className="grid md:grid-cols-2 gap-2">
               <span className="flex flex-col sm:flex-row  gap-3">
                 <Label className="text-sm text-gray-600 text-nowrap">
-                  Select Ministry/Department/Apex body
+                  Select Department/Section
                   <span className="text-red-500 text-lg ml-0.5">*</span>
                 </Label>
                 <Select>
@@ -52,11 +53,16 @@ const RTIForm = () => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Status</SelectLabel>
+                      {LegalSections.map((each) => (
+                        <SelectLabel value={each.value} key={each.value}>
+                          {each.name}
+                        </SelectLabel>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </span>
-              <span className="flex  gap-3">
+              {/* <span className="flex gap-3">
                 <Label className="text-sm text-gray-600 text-nowrap">
                   Select Public Authority
                   <span className="text-red-500 text-lg ml-0.5">*</span>
@@ -71,7 +77,7 @@ const RTIForm = () => {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-              </span>
+              </span> */}
             </CardContent>
           </Card>
           <Card>
